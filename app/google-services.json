@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "736193395880",
+    "firebase_url": "https://sporttogether-6e6ff.firebaseio.com",
+    "project_id": "sporttogether-6e6ff",
+    "storage_bucket": "sporttogether-6e6ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736193395880:android:c3b532826ac8e28c",
+        "android_client_info": {
+          "package_name": "fishlinghu.sporttogether"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736193395880-gj6pimngau0uh9fp1k9lcr9v7odhh809.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fishlinghu.sporttogether",
+            "certificate_hash": "9572138f6e407a3078669eabd7800b763d56ca79"
+          }
+        },
+        {
+          "client_id": "736193395880-crrphmhmas008v043brut2def9oggopt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnvDyx16pr1agv7mFeLSp0jC-byBT9iv0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "736193395880-crrphmhmas008v043brut2def9oggopt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
