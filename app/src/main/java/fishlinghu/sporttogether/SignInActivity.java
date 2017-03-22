@@ -125,6 +125,9 @@ public class SignInActivity extends AppCompatActivity implements
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            //TODO: check if the user login first time.
+
+
                             startActivity(new Intent(SignInActivity.this, MainPageActivity.class));
                             finish();
                         }
