@@ -26,9 +26,9 @@
         android:text="Zipcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
+        android:layout_below="@+id/editText_Name"
+        android:layout_alignLeft="@+id/editText_Name"
+        android:layout_alignStart="@+id/editText_Name"
         android:layout_marginTop="33dp"
         android:id="@+id/textView3" />
 
@@ -42,7 +42,7 @@
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignStart="@+id/textView3"
         android:layout_marginTop="25dp"
-        android:id="@+id/editText2" />
+        android:id="@+id/editText_Zipcode" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
         android:text=""
         android:ems="10"
         android:layout_marginTop="17dp"
-        android:id="@+id/editText"
+        android:id="@+id/editText_Name"
         android:layout_below="@+id/textView2"
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignStart="@+id/textView2" />
@@ -60,9 +60,9 @@
         android:text="Sport interests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText2"
-        android:layout_alignLeft="@+id/editText2"
-        android:layout_alignStart="@+id/editText2"
+        android:layout_below="@+id/editText_Zipcode"
+        android:layout_alignLeft="@+id/editText_Zipcode"
+        android:layout_alignStart="@+id/editText_Zipcode"
         android:layout_marginTop="27dp"
         android:id="@+id/textView4" />
 
@@ -76,7 +76,7 @@
         android:layout_alignLeft="@+id/textView4"
         android:layout_alignStart="@+id/textView4"
         android:layout_marginTop="26dp"
-        android:id="@+id/editText3" />
+        android:id="@+id/editText_Sport" />
 
     <TextView
         android:text="level"
@@ -84,9 +84,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:id="@+id/textView6"
-        android:layout_below="@+id/editText3"
-        android:layout_alignLeft="@+id/editText3"
-        android:layout_alignStart="@+id/editText3" />
+        android:layout_below="@+id/editText_Sport"
+        android:layout_alignLeft="@+id/editText_Sport"
+        android:layout_alignStart="@+id/editText_Sport" />
 
     <Button
         android:text="Update"
@@ -97,7 +97,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText4" />
+        android:layout_below="@+id/editText_Level" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
         android:text=""
         android:ems="10"
         android:layout_marginTop="24dp"
-        android:id="@+id/editText4"
+        android:id="@+id/editText_Level"
         android:layout_below="@+id/textView6"
         android:layout_alignLeft="@+id/textView6"
         android:layout_alignStart="@+id/textView6" />

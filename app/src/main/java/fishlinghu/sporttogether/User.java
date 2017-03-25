@@ -5,7 +5,7 @@ package fishlinghu.sporttogether;
  */
 
 public class User {
-    private String email;
+
     private String name ;
     private int zipcode;
     private String sports ;
@@ -14,29 +14,19 @@ public class User {
     public User() {
     }
 
-    public User(String email,  String name,  int zipcode, String sports, int level) {
-        this.email = email;
+    public User( String name,  int zipcode, String sports, int level) {
+
         this.name = name;
         this.zipcode = zipcode;
         this.sports = sports;
         this.level = level;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-
     public int getZipcode() {
         return zipcode;
     }
 
-    public void setAge(int zipcode) {
+    public void setZipcode(int zipcode) {
         this.zipcode = zipcode;
     }
 
