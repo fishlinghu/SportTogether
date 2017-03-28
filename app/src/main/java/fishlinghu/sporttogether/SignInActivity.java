@@ -152,7 +152,7 @@ public class SignInActivity extends AppCompatActivity implements
                                         finish();
                                     }else{
                                         // Account does not exist, create one
-                                        Toast.makeText(getApplicationContext(), "You need create an account", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(SignInActivity.this, CreateAccountActivity.class));
                                         finish();
                                     }
                                 }
