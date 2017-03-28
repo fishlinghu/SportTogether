@@ -34,7 +34,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.Edit_Profile_button:
-                Toast.makeText(v.getContext(), "edit", Toast.LENGTH_LONG).show();
+                //Toast.makeText(v.getContext(), "edit", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(MainPageActivity.this, EditAccountActivity.class));
                 break;
             case R.id.Matching_button:

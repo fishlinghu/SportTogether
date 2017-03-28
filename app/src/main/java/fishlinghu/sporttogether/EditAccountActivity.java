@@ -90,7 +90,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
                 reference.child("users").child( AccountEmail.replace(".",",") ).setValue(UserData);
 
-                Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT);
+                Toast.makeText(v.getContext(), "Profile Updated", Toast.LENGTH_LONG).show();
             }
         });
 
