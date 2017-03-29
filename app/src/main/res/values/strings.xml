@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Friendly Chat</string>
+    <string name="app_name">Sport Together</string>
     <string name="welcome_msg">Welcome!</string>
     <string name="sign_out">Sign Out</string>
     <string name="contacts_permission_rationale">Access to account information is required to sign in.</string>
