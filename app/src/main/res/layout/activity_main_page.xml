@@ -29,7 +29,7 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Friends"
+        android:text="Discussing"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:id="@+id/Friends_button"

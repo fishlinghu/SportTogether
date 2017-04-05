@@ -39,10 +39,12 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.Matching_button:
                 Toast.makeText(getApplicationContext(), "match", Toast.LENGTH_LONG).show();
+
+                startActivity(new Intent(MainPageActivity.this, CreateChatroomActivity.class));
                 break;
             case R.id.Friends_button:
                 Toast.makeText(getApplicationContext(), "Friend", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(MainPageActivity.this, MainActivity.class));
+                startActivity(new Intent(MainPageActivity.this, ChatActivity.class));
                 break;
 
         }
