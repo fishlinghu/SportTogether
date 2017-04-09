@@ -80,6 +80,9 @@ public class CreateChatroomActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
                     // jump to that new chatroom
                 }
+                Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
+                myIntent.putExtra("roomKey", roomKey);
+                //startActivity(myIntent); still debugging that page
             }
         });
     }

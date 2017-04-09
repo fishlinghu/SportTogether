@@ -84,7 +84,8 @@ public class ChatActivity extends AppCompatActivity
     }
 
     private static final String TAG = "ChatActivity";
-    public static final String MESSAGES_CHILD = "messages";
+    //public static final String MESSAGES_CHILD = "messages";
+    public String roomKey;
     private static final int REQUEST_INVITE = 1;
     private static final int REQUEST_IMAGE = 2;
     private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
@@ -109,6 +110,11 @@ public class ChatActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get the room key
+        Intent myIntent = getIntent();
+        roomKey = myIntent.getStringExtra("roomKey");
+
         setContentView(R.layout.activity_chat);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default username is anonymous.
@@ -151,7 +157,7 @@ public class ChatActivity extends AppCompatActivity
                 FriendlyMessage.class,
                 R.layout.item_message,
                 MessageViewHolder.class,
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)) {
+                mFirebaseDatabaseReference.child("chatrooms").child(roomKey)) {
 
             @Override
             protected void populateViewHolder(final MessageViewHolder viewHolder,
@@ -256,7 +262,7 @@ public class ChatActivity extends AppCompatActivity
                         FriendlyMessage(mMessageEditText.getText().toString(),
                         mUsername,
                         mPhotoUrl, null);
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                mFirebaseDatabaseReference.child("chatrooms").child(roomKey)
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
             }
@@ -336,7 +342,7 @@ public class ChatActivity extends AppCompatActivity
                                     new FriendlyMessage(null, mUsername, mPhotoUrl,
                                             task.getResult().getMetadata().getDownloadUrl()
                                                     .toString());
-                            mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
+                            mFirebaseDatabaseReference.child("chatrooms").child(roomKey).child("messages").child(key)
                                     .setValue(friendlyMessage);
                         } else {
                             Log.w(TAG, "Image upload task was not successful.",
@@ -359,7 +365,7 @@ public class ChatActivity extends AppCompatActivity
 
                     FriendlyMessage tempMessage = new FriendlyMessage(null, mUsername, mPhotoUrl,
                             LOADING_IMAGE_URL);
-                    mFirebaseDatabaseReference.child(MESSAGES_CHILD).push()
+                    mFirebaseDatabaseReference.child("chatrooms").child(roomKey).child("messages").push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError,
