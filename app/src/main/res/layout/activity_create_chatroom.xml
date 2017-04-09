@@ -67,11 +67,11 @@
         android:id="@+id/textView15"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_below="@+id/spinnerTime"
         android:layout_alignLeft="@+id/textView14"
         android:layout_alignStart="@+id/textView14"
-        android:layout_marginTop="16dp" />
+        android:layout_below="@+id/spinnerTime"
+        android:layout_marginTop="16dp"
+        android:text="Zipcode" />
 
     <EditText
         android:id="@+id/editText3"

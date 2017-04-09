@@ -142,6 +142,9 @@ public class ChatActivity extends AppCompatActivity
         mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         // New child entries
+        // This code initially adds all existing messages
+        // then listens for new child entries under the messages path in your Firebase Realtime Database.
+        // It adds a new element to the UI for each message.
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage,
                 MessageViewHolder>(
