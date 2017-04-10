@@ -63,6 +63,7 @@ public class ChatActivity extends AppCompatActivity
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private String AccountEmail;
 
     // Firebase instance variables
     private DatabaseReference mFirebaseDatabaseReference;
@@ -84,7 +85,7 @@ public class ChatActivity extends AppCompatActivity
     }
 
     private static final String TAG = "ChatActivity";
-    public static final String MESSAGES_CHILD = "messages";
+    //public static final String MESSAGES_CHILD = "messages";
     public String roomKey;
     private static final int REQUEST_INVITE = 1;
     private static final int REQUEST_IMAGE = 2;
@@ -99,6 +100,7 @@ public class ChatActivity extends AppCompatActivity
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
 
     private Button mSendButton;
+    private Button mLeaveButton;
     private RecyclerView mMessageRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private ProgressBar mProgressBar;
@@ -123,6 +125,7 @@ public class ChatActivity extends AppCompatActivity
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        AccountEmail = mFirebaseUser.getEmail();
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, SignInActivity.class));
@@ -272,6 +275,18 @@ public class ChatActivity extends AppCompatActivity
                 mFirebaseDatabaseReference.child("chatrooms").child(roomKey).child("messages")
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
+            }
+        });
+
+        mLeaveButton = (Button) findViewById(R.id.leaveButton);
+        mLeaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // remove user's room key
+                mFirebaseDatabaseReference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue("");
+                // leave the room, go to home page
+                Intent myIntent = new Intent(ChatActivity.this, MainPageActivity.class);
+                startActivity(myIntent);
             }
         });
 
