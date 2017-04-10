@@ -9,12 +9,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 /**
@@ -24,6 +28,10 @@ import com.google.firebase.database.ValueEventListener;
 public class CreateChatroomActivity extends AppCompatActivity {
 
     private DatabaseReference reference;
+    private FirebaseUser GoogleUser;
+    private String AccountEmail;
+    private User UserData;
+
     private DataSnapshot tempSnapshot;
     private Button ButtonDone;
     private EditText EditTextZipcode;
@@ -37,6 +45,32 @@ public class CreateChatroomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_chatroom);
 
         reference = FirebaseDatabase.getInstance().getReference();
+        GoogleUser = FirebaseAuth.getInstance().getCurrentUser();
+        AccountEmail = GoogleUser.getEmail();
+
+        // single read data from FireBase
+
+        Query query = reference.child("users").child( AccountEmail.replace(".",",") );
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    UserData = dataSnapshot.getValue(User.class);
+                    String userRoomKey = UserData.getRoomKey();
+                    if(!userRoomKey.equals("")){
+                        // user is already in a room, bring him there
+                        Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
+                        myIntent.putExtra("roomKey", userRoomKey);
+                        startActivity(myIntent);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         // set the item in the sport selection list
@@ -58,9 +92,9 @@ public class CreateChatroomActivity extends AppCompatActivity {
         ButtonDone.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                String sport = spinnerSport.getSelectedItem().toString();
-                String time = spinnerTime.getSelectedItem().toString();
-                int zipcode = Integer.parseInt(EditTextZipcode.getText().toString());
+                final String sport = spinnerSport.getSelectedItem().toString();
+                final String time = spinnerTime.getSelectedItem().toString();
+                final int zipcode = Integer.parseInt(EditTextZipcode.getText().toString());
 
                 // Toast.makeText(v.getContext(), "Account created", Toast.LENGTH_LONG).show();
 
@@ -68,28 +102,81 @@ public class CreateChatroomActivity extends AppCompatActivity {
                 //finish();
 
                 // look for existing chatroom
-                foundMatch(sport, time, zipcode);
-                if(foundRoom){
-                    Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
-                    // jump to that existing chatroom
-                }
-                else{
+                reference.child("chatrooms").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean flag = false;
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            Chatroom temp = snapshot.getValue(Chatroom.class);
+                            Log.d("foundMatch", sport+", "+temp.getSport());
+                            Log.d("foundMatch", time+", "+temp.getIntendedTime()); // why is getTime always return null?
+                            Log.d("foundMatch", zipcode+", "+temp.getZipcode());
+                            if(sport.equals(temp.getSport()) && time.equals(temp.getIntendedTime()) && zipcode==temp.getZipcode()){
+                                // a matched room found
+                                Log.d("foundMatch", "Match found!!!!!");
+                                foundRoom = true;
+                                roomKey = snapshot.getKey();
+                                reference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue(roomKey);
+                                // bring the user to the room
+                                Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
+                                Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
+                                myIntent.putExtra("roomKey", roomKey);
+                                startActivity(myIntent);
+                                flag = true;
+                                break;
+                                //return;
+                            }
+                        }
+                        if(flag == false){
+                            // no matched room found, create new room
+                            Chatroom NewChatroom = new Chatroom( sport, time, zipcode ); // should turn hour into integer!!
+                            roomKey = reference.child("chatrooms").push().getKey();
+                            reference.child("chatrooms").child(roomKey).setValue(NewChatroom);
+                            reference.child("chatrooms").child(roomKey).child("messages").push();
+                            Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
+
+                            // set the "roomKey" field in User
+                            reference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue(roomKey);
+                            // bring the user to the room
+                            Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
+                            myIntent.putExtra("roomKey", roomKey);
+                            startActivity(myIntent);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                //foundMatch(sport, time, zipcode);
+                //if(foundRoom){
+                    //Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
+                //}
+                //else{
+                    // create a new room
+                /*
                     Chatroom NewChatroom = new Chatroom( sport, time, zipcode ); // should turn hour into integer!!
                     roomKey = reference.child("chatrooms").push().getKey();
                     reference.child("chatrooms").child(roomKey).setValue(NewChatroom);
+                    reference.child("chatrooms").child(roomKey).child("messages").push();
                     Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
-                    // jump to that new chatroom
-                }
+                //}
+                // set the "roomKey" field in User
+                reference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue(roomKey);
+                // bring the user to the room
                 Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
                 myIntent.putExtra("roomKey", roomKey);
-                //startActivity(myIntent); still debugging that page
+                startActivity(myIntent);
+                */
             }
         });
     }
 
     // check if there are matching room for the player
+    /*
     private void foundMatch(final String sport, final String time, final int zipcode){
-        reference.child("chatrooms").addValueEventListener(new ValueEventListener() {
+        reference.child("chatrooms").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
@@ -99,8 +186,15 @@ public class CreateChatroomActivity extends AppCompatActivity {
                     Log.d("foundMatch", zipcode+", "+temp.getZipcode());
                     if(sport.equals(temp.getSport()) && time.equals(temp.getIntendedTime()) && zipcode==temp.getZipcode()){
                         // a matched room found
+                        Log.d("foundMatch", "Match found!!!!!");
                         foundRoom = true;
                         roomKey = snapshot.getKey();
+                        reference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue(roomKey);
+                        // bring the user to the room
+                        Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
+                        Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
+                        myIntent.putExtra("roomKey", roomKey);
+                        startActivity(myIntent);
                         return;
                     }
                 }
@@ -112,4 +206,5 @@ public class CreateChatroomActivity extends AppCompatActivity {
             }
         });
     }
+    */
 }

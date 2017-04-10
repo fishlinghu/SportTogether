@@ -10,6 +10,7 @@ public class User {
     private int zipcode;
     private String sports ;
     private int level;
+    private String roomKey;
 
     public User() {
     }
@@ -20,6 +21,7 @@ public class User {
         this.zipcode = zipcode;
         this.sports = sports;
         this.level = level;
+        this.roomKey = "";
     }
 
     public int getZipcode() {
@@ -53,6 +55,10 @@ public class User {
     public void setLevel(int level) {
         this.level = level;
     }
+
+    public String getRoomKey() {return roomKey;}
+
+    public void setRoomKey(String temp) {this.roomKey = temp;}
 
 
 }

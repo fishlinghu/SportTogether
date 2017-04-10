@@ -84,7 +84,7 @@ public class ChatActivity extends AppCompatActivity
     }
 
     private static final String TAG = "ChatActivity";
-    //public static final String MESSAGES_CHILD = "messages";
+    public static final String MESSAGES_CHILD = "messages";
     public String roomKey;
     private static final int REQUEST_INVITE = 1;
     private static final int REQUEST_IMAGE = 2;
@@ -141,7 +141,7 @@ public class ChatActivity extends AppCompatActivity
                 .build();
 
         // Initialize ProgressBar and RecyclerView.
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);// why is progress bar keep rolling when there is no message?
         mMessageRecyclerView = (RecyclerView) findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
@@ -152,16 +152,18 @@ public class ChatActivity extends AppCompatActivity
         // then listens for new child entries under the messages path in your Firebase Realtime Database.
         // It adds a new element to the UI for each message.
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
         mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage,
                 MessageViewHolder>(
                 FriendlyMessage.class,
                 R.layout.item_message,
                 MessageViewHolder.class,
-                mFirebaseDatabaseReference.child("chatrooms").child(roomKey)) {
+                mFirebaseDatabaseReference.child("chatrooms").child(roomKey).child("messages") ){
 
             @Override
             protected void populateViewHolder(final MessageViewHolder viewHolder,
                                               FriendlyMessage friendlyMessage, int position) {
+
                 mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 if (friendlyMessage.getText() != null) {
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
@@ -208,7 +210,9 @@ public class ChatActivity extends AppCompatActivity
                 }
 
             }
+
         };
+
 
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -228,8 +232,11 @@ public class ChatActivity extends AppCompatActivity
             }
         });
 
+
         mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
+
         mMessageRecyclerView.setAdapter(mFirebaseAdapter);
+
 
         mMessageEditText = (EditText) findViewById(R.id.messageEditText);
         mMessageEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mSharedPreferences
@@ -262,7 +269,7 @@ public class ChatActivity extends AppCompatActivity
                         FriendlyMessage(mMessageEditText.getText().toString(),
                         mUsername,
                         mPhotoUrl, null);
-                mFirebaseDatabaseReference.child("chatrooms").child(roomKey)
+                mFirebaseDatabaseReference.child("chatrooms").child(roomKey).child("messages")
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
             }
