@@ -1,0 +1,8 @@
+1. Add a "leave room" button
+2. Show room information in the room
+3. Clear roomKey when logging in
+4. Go to the review page after everyone press "GO" in the room
+5. Delete room mechanism:
+	a) after everyone press "GO"
+	b) after everyone leave the room
+6. How to match location? time?
