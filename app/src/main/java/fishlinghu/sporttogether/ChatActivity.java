@@ -49,9 +49,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -98,6 +101,7 @@ public class ChatActivity extends AppCompatActivity
     private SharedPreferences mSharedPreferences;
     private GoogleApiClient mGoogleApiClient;
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
+    private Chatroom RoomData;
 
     private Button mSendButton;
     private Button mLeaveButton;
@@ -106,6 +110,8 @@ public class ChatActivity extends AppCompatActivity
     private ProgressBar mProgressBar;
     private EditText mMessageEditText;
     private ImageView mAddMessageImageView;
+    private TextView mSportTextView;
+    private TextView mTimeTextView;
 
     // Firebase instance variables
 
@@ -155,6 +161,26 @@ public class ChatActivity extends AppCompatActivity
         // then listens for new child entries under the messages path in your Firebase Realtime Database.
         // It adds a new element to the UI for each message.
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        // show the room information
+        mSportTextView = (TextView) findViewById(R.id.textView16);
+        mTimeTextView = (TextView) findViewById(R.id.textView17);
+
+        Query query = mFirebaseDatabaseReference.child("chatrooms").child(roomKey);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    RoomData = dataSnapshot.getValue(Chatroom.class);
+                    mSportTextView.setText( RoomData.getSport() );
+                    mTimeTextView.setText( RoomData.getIntendedTime() );
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage,
                 MessageViewHolder>(

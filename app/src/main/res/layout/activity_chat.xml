@@ -65,4 +65,43 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="Leave Room" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Sport:" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/leaveButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Intended time:" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView12"
+        android:layout_marginLeft="7dp"
+        android:layout_marginStart="7dp"
+        android:layout_toEndOf="@+id/textView12"
+        android:layout_toRightOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView13"
+        android:layout_marginLeft="7dp"
+        android:layout_marginStart="7dp"
+        android:layout_toEndOf="@+id/textView13"
+        android:layout_toRightOf="@+id/textView13"
+        android:text="TextView" />
 </RelativeLayout>
