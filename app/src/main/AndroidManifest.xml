@@ -19,6 +19,7 @@
         <activity android:name=".MainPageActivity" />
         <activity android:name=".EditAccountActivity" />
         <activity android:name=".CreateChatroomActivity" />
+        <activity android:name=".ReviewActivity" />
         <activity android:name=".CreateAccountActivity"></activity>
     </application>
 

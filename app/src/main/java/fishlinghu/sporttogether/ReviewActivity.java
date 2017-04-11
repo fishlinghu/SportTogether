@@ -3,6 +3,9 @@ package fishlinghu.sporttogether;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -72,5 +75,12 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
 
+        LinearLayout ll = (LinearLayout) findViewById(R.id.linearLayoutReview);
+        for(int i = 0; i < 2; i++){
+            TextView temp = new TextView(this);
+            temp.setText(i);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT);
+            ll.addView(temp,lp);
+        }
     }
 }
