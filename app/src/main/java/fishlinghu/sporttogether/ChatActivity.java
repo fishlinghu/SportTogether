@@ -67,6 +67,7 @@ public class ChatActivity extends AppCompatActivity
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private String AccountEmail;
+    private String AccountEmailKey;
 
     // Firebase instance variables
     private DatabaseReference mFirebaseDatabaseReference;
@@ -132,6 +133,8 @@ public class ChatActivity extends AppCompatActivity
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         AccountEmail = mFirebaseUser.getEmail();
+        AccountEmailKey = AccountEmail.replace(".",",");
+
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, SignInActivity.class));
@@ -309,7 +312,8 @@ public class ChatActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 // remove user's room key
-                mFirebaseDatabaseReference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue("");
+                mFirebaseDatabaseReference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue("");
+                mFirebaseDatabaseReference.child("chatrooms").child(roomKey).child("users").child(AccountEmailKey).removeValue();
                 // leave the room, go to home page
                 Intent myIntent = new Intent(ChatActivity.this, MainPageActivity.class);
                 startActivity(myIntent);

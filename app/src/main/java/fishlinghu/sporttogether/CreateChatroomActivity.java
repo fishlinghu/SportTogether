@@ -30,6 +30,7 @@ public class CreateChatroomActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private FirebaseUser GoogleUser;
     private String AccountEmail;
+    private String AccountEmailKey;
     private User UserData;
 
     private DataSnapshot tempSnapshot;
@@ -47,10 +48,11 @@ public class CreateChatroomActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference();
         GoogleUser = FirebaseAuth.getInstance().getCurrentUser();
         AccountEmail = GoogleUser.getEmail();
+        AccountEmailKey = AccountEmail.replace(".",",");
 
         // single read data from FireBase
 
-        Query query = reference.child("users").child( AccountEmail.replace(".",",") );
+        Query query = reference.child("users").child( AccountEmailKey );
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -81,7 +83,7 @@ public class CreateChatroomActivity extends AppCompatActivity {
 
         // set the item in the time selection list
         final Spinner spinnerTime = (Spinner)findViewById(R.id.spinnerTime);
-        String[] timeList = new String[]{"3:00 pm", "4:00 pm", "5:00 pm"};
+        String[] timeList = new String[]{"3:00 pm", "4:00 pm", "5:00 pm"}; // need to add more time here
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, timeList);
         spinnerTime.setAdapter(adapter2);
 
@@ -116,7 +118,8 @@ public class CreateChatroomActivity extends AppCompatActivity {
                                 Log.d("foundMatch", "Match found!!!!!");
                                 foundRoom = true;
                                 roomKey = snapshot.getKey();
-                                reference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue(roomKey);
+                                reference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue(roomKey);
+                                reference.child("chatrooms").child(roomKey).child("users").child( AccountEmailKey ).setValue("");
                                 // bring the user to the room
                                 Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
                                 Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
@@ -136,7 +139,8 @@ public class CreateChatroomActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
 
                             // set the "roomKey" field in User
-                            reference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue(roomKey);
+                            reference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue(roomKey);
+                            reference.child("chatrooms").child(roomKey).child("users").child( AccountEmailKey ).setValue("");
                             // bring the user to the room
                             Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
                             myIntent.putExtra("roomKey", roomKey);
@@ -149,62 +153,7 @@ public class CreateChatroomActivity extends AppCompatActivity {
 
                     }
                 });
-                //foundMatch(sport, time, zipcode);
-                //if(foundRoom){
-                    //Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
-                //}
-                //else{
-                    // create a new room
-                /*
-                    Chatroom NewChatroom = new Chatroom( sport, time, zipcode ); // should turn hour into integer!!
-                    roomKey = reference.child("chatrooms").push().getKey();
-                    reference.child("chatrooms").child(roomKey).setValue(NewChatroom);
-                    reference.child("chatrooms").child(roomKey).child("messages").push();
-                    Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
-                //}
-                // set the "roomKey" field in User
-                reference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue(roomKey);
-                // bring the user to the room
-                Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
-                myIntent.putExtra("roomKey", roomKey);
-                startActivity(myIntent);
-                */
             }
         });
     }
-
-    // check if there are matching room for the player
-    /*
-    private void foundMatch(final String sport, final String time, final int zipcode){
-        reference.child("chatrooms").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Chatroom temp = snapshot.getValue(Chatroom.class);
-                    Log.d("foundMatch", sport+", "+temp.getSport());
-                    Log.d("foundMatch", time+", "+temp.getIntendedTime()); // why is getTime always return null?
-                    Log.d("foundMatch", zipcode+", "+temp.getZipcode());
-                    if(sport.equals(temp.getSport()) && time.equals(temp.getIntendedTime()) && zipcode==temp.getZipcode()){
-                        // a matched room found
-                        Log.d("foundMatch", "Match found!!!!!");
-                        foundRoom = true;
-                        roomKey = snapshot.getKey();
-                        reference.child("users").child( AccountEmail.replace(".",",") ).child( "roomKey" ).setValue(roomKey);
-                        // bring the user to the room
-                        Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
-                        Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
-                        myIntent.putExtra("roomKey", roomKey);
-                        startActivity(myIntent);
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-    */
 }
