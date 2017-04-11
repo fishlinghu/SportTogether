@@ -1,5 +1,7 @@
-V1. Add a "leave room" button 
-V2. Show room information in the room
+1. Implement the review system
+	a) dynamically create textView, and gather review from ratingBar
+	b) finish activity_view 
+2. Show room information in the room
 3. Clear roomKey when logging in
 4. Go to the review page after everyone press "GO" in the room
 5. Delete room mechanism:
