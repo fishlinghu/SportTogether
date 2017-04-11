@@ -60,6 +60,7 @@ public class CreateChatroomActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     UserData = dataSnapshot.getValue(User.class);
                     String userRoomKey = UserData.getRoomKey();
+                    //UserData.addNewRating(8.0);
                     if(!userRoomKey.equals("")){
                         // user is already in a room, bring him there
                         Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
