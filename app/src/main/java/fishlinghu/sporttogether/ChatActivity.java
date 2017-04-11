@@ -106,6 +106,7 @@ public class ChatActivity extends AppCompatActivity
 
     private Button mSendButton;
     private Button mLeaveButton;
+    private Button mGoButton;
     private RecyclerView mMessageRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private ProgressBar mProgressBar;
@@ -316,6 +317,17 @@ public class ChatActivity extends AppCompatActivity
                 mFirebaseDatabaseReference.child("chatrooms").child(roomKey).child("users").child(AccountEmailKey).removeValue();
                 // leave the room, go to home page
                 Intent myIntent = new Intent(ChatActivity.this, MainPageActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
+        mGoButton = (Button) findViewById(R.id.goButton);
+        mGoButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // actually should wait for everyone being ready
+                // leave the room, go to home page
+                Intent myIntent = new Intent(ChatActivity.this, ReviewActivity.class);
                 startActivity(myIntent);
             }
         });
