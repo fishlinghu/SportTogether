@@ -75,12 +75,12 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
 
-        LinearLayout ll = (LinearLayout) findViewById(R.id.linearLayoutReview);
-        for(int i = 0; i < 2; i++){
-            TextView temp = new TextView(this);
-            temp.setText(i);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT);
-            ll.addView(temp,lp);
-        }
+//        LinearLayout ll = (LinearLayout) findViewById(R.id.linearLayoutReview);
+//        for(int i = 0; i < 2; i++){
+//            TextView temp = new TextView(this);
+//            temp.setText(i);
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            ll.addView(temp,lp);
+//        }
     }
 }
