@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -39,6 +40,8 @@ public class ReviewActivity extends AppCompatActivity {
     private String roomKey = "";
 
     private ArrayList<String> userNameList = new ArrayList<String>();
+
+    private Button mSubmitBut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class ReviewActivity extends AppCompatActivity {
                     // add rating bar
                     RatingBar tempRatingBar = new RatingBar( getApplicationContext() );
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    tempRatingBar.setId(10000+i);
                     tempRatingBar.setRating(5);
                     ll.addView(tempRatingBar, lp);
                 }
@@ -93,6 +97,21 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
 
-
+        mSubmitBut = (Button) findViewById(R.id.button2);
+        mSubmitBut.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // update the user rating
+                double tempRating = -1;
+                for(int i = 0; i < userNameList.size(); i++){
+                    RatingBar tempRatingBar = (RatingBar) findViewById(10000+i);
+                    tempRating = tempRatingBar.getRating();
+                    reference.child("users").child( userNameList.get(i) ).child("ratings").child( AccountEmailKey ).setValue( tempRating );
+                }
+                // jump to main page
+                Intent myIntent = new Intent(ReviewActivity.this, MainPageActivity.class);
+                startActivity(myIntent);
+            }
+        });
     }
 }
