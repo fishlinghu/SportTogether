@@ -12,6 +12,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
  * Created by fishlinghu on 3/29/17.
  */
 
-public class CreateChatroomActivity extends AppCompatActivity implements View.OnClickListener {
+public class CreateChatroomActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
 
     private DatabaseReference reference;
     private FirebaseUser GoogleUser;
@@ -39,9 +44,11 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
     private boolean foundRoom = false;
     private String roomKey = "";
 
+    private MapView mapView;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_chatroom);
@@ -54,6 +61,15 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         AccountEmailKey = AccountEmail.replace(".",",");
         Button MapButton = (Button) findViewById(R.id.buttonMap);
         MapButton.setOnClickListener(this);
+
+
+
+
+        mapView = (MapView)findViewById(R.id.mapView2);
+        mapView.onCreate(savedInstanceState);
+
+        mapView.getMapAsync(this);
+
 
         // single read data from FireBase
 
@@ -108,6 +124,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
                 //startActivity(new Intent(CreateChatroomActivity.this, MainPageActivity.class));
                 //finish();
+
 
                 // look for existing chatroom
                 reference.child("chatrooms").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -175,7 +192,42 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         }
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        mapView.onResume();
+    }
 
+    @Override
+    public void onMapReady(GoogleMap map)
+    {
+        map.addMarker(new MarkerOptions()
+                .position(new LatLng(0, 0))
+                .title("Marker"));
+    }
+
+
+    @Override
+    public final void onDestroy()
+    {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public final void onLowMemory()
+    {
+        mapView.onLowMemory();
+        super.onLowMemory();
+    }
+
+    @Override
+    public final void onPause()
+    {
+        mapView.onPause();
+        super.onPause();
+    }
 
 
 }

@@ -1,8 +1,34 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fishlinghu.sporttogether.MapsActivity" />
+    android:orientation="vertical">
+
+    <!-- Note: We use a reverse DNS naming style
+          ie: fragment (layout type)
+              + embedded_map_view (name)
+              + (optional view name if only one)
+              + mapview (view object type) -->
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Available room:" />
+
+
+    </ScrollView>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/fragment_embedded_map_view_mapview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
