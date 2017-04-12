@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
  * Created by fishlinghu on 3/29/17.
  */
 
-public class CreateChatroomActivity extends AppCompatActivity {
+public class CreateChatroomActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DatabaseReference reference;
     private FirebaseUser GoogleUser;
@@ -39,16 +39,21 @@ public class CreateChatroomActivity extends AppCompatActivity {
     private boolean foundRoom = false;
     private String roomKey = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_chatroom);
 
+
+
         reference = FirebaseDatabase.getInstance().getReference();
         GoogleUser = FirebaseAuth.getInstance().getCurrentUser();
         AccountEmail = GoogleUser.getEmail();
         AccountEmailKey = AccountEmail.replace(".",",");
+        Button MapButton = (Button) findViewById(R.id.buttonMap);
+        MapButton.setOnClickListener(this);
 
         // single read data from FireBase
 
@@ -156,5 +161,21 @@ public class CreateChatroomActivity extends AppCompatActivity {
                 });
             }
         });
+
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonMap:
+                //Toast.makeText(v.getContext(), "edit", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(CreateChatroomActivity.this, MapsActivity.class));
+                break;
+
+        }
+    }
+
+
+
+
 }

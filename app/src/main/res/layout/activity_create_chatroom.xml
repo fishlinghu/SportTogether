@@ -84,4 +84,16 @@
         android:ems="10"
         android:inputType="number" />
 
+    <Button
+        android:id="@+id/buttonMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Map"
+        android:layout_alignBaseline="@+id/editText3"
+        android:layout_alignBottom="@+id/editText3"
+        android:layout_toRightOf="@+id/editText3"
+        android:layout_toEndOf="@+id/editText3"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp" />
+
 </RelativeLayout>
