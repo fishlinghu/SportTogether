@@ -1,6 +1,7 @@
 package fishlinghu.sporttogether;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -64,21 +65,25 @@ public class ReviewActivity extends AppCompatActivity {
                 LinearLayout ll = (LinearLayout) findViewById(R.id.linearLayoutReview);
                 int numUsers = userNameList.size();
                 for(int i = 0; i < numUsers; i++) {
-                    TextView tempTextView = new TextView( getApplicationContext() );
-                    RatingBar tempRatingBar = new RatingBar( getApplicationContext() );
-
                     // show user name here
                     Log.d("reviewActivity", userNameList.get(i));
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    //LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    // add textView (user name)
+                    TextView tempTextView = new TextView( getApplicationContext() );
+                    LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     tempTextView.setText( userNameList.get(i) );
-                    //tempTextView.setText( "Fuck you" );
+                    // probably also put the user image? like what we do in chatroom
+                    tempTextView.setLayoutParams(lp2);
+                    tempTextView.setTextColor(Color.BLACK);
                     tempTextView.setVisibility(View.VISIBLE);
-                    tempTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    //tempTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                     ll.addView( tempTextView );
-                    //ll.addView(tempTextView, lp2);
+
+                    // add rating bar
+                    RatingBar tempRatingBar = new RatingBar( getApplicationContext() );
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     tempRatingBar.setRating(5);
-                    //ll.addView(tempRatingBar, lp);
+                    ll.addView(tempRatingBar, lp);
                 }
             }
 
