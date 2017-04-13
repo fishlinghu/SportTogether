@@ -44,7 +44,7 @@ public class MainPageActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.Friends_button:
                 Toast.makeText(getApplicationContext(), "Friend", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(MainPageActivity.this, ChatActivity.class));
+                startActivity(new Intent(MainPageActivity.this, SelectRoomActivity.class));
                 break;
 
         }
