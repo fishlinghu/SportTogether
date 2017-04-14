@@ -325,9 +325,8 @@ public class ChatActivity extends AppCompatActivity
         mGoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // actually should wait for everyone being ready
-                // leave the room, go to home page
                 Intent myIntent = new Intent(ChatActivity.this, ReviewActivity.class);
+                myIntent.putExtra("roomKey", roomKey);
                 startActivity(myIntent);
             }
         });

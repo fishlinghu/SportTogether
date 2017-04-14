@@ -73,28 +73,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
         // single read data from FireBase
 
-        Query query = reference.child("users").child( AccountEmailKey );
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    UserData = dataSnapshot.getValue(User.class);
-                    String userRoomKey = UserData.getRoomKey();
-                    //UserData.addNewRating(8.0);
-                    if(!userRoomKey.equals("")){
-                        // user is already in a room, bring him there
-                        Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
-                        myIntent.putExtra("roomKey", userRoomKey);
-                        startActivity(myIntent);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
 
         // set the item in the sport selection list
@@ -146,7 +125,8 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
                                 Log.d("foundMatch", "Match found!!!!!");
                                 foundRoom = true;
                                 roomKey = snapshot.getKey();
-                                reference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue(roomKey);
+                                //reference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue(roomKey);
+                                reference.child("users").child( AccountEmailKey ).child( "roomKey" ).child(roomKey).setValue("");
                                 reference.child("chatrooms").child(roomKey).child("users").child( AccountEmailKey ).setValue("");
                                 // bring the user to the room
                                 Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
@@ -167,7 +147,8 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
                             Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
 
                             // set the "roomKey" field in User
-                            reference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue(roomKey);
+                            //reference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue(roomKey);
+                            reference.child("users").child( AccountEmailKey ).child( "roomKey" ).child(roomKey).setValue("");
                             reference.child("chatrooms").child(roomKey).child("users").child( AccountEmailKey ).setValue("");
                             // bring the user to the room
                             Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);

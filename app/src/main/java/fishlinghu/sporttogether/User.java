@@ -14,7 +14,7 @@ public class User {
     private int zipcode;
     private String sports ;
     private int level;
-    private String roomKey;
+    //private String roomKey;
     //private CopyOnWriteArrayList<Double> ratingList = new CopyOnWriteArrayList<>();
 
     public User() {
@@ -26,7 +26,7 @@ public class User {
         this.zipcode = zipcode;
         this.sports = sports;
         this.level = level;
-        this.roomKey = "";
+        //this.roomKey = "";
         //this.ratingList.add(5.0);
 
     }
@@ -59,8 +59,8 @@ public class User {
         this.level = level;
     }
 
-    public String getRoomKey() {return roomKey;}
-    public void setRoomKey(String temp) {this.roomKey = temp;}
+    //public String getRoomKey() {return roomKey;}
+    //public void setRoomKey(String temp) {this.roomKey = temp;}
     /*
     public int getRatingCount() {return ratingList.size();}
     public double getRating() {

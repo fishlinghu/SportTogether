@@ -47,6 +47,10 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // get the room key
+        Intent myIntent = getIntent();
+        roomKey = myIntent.getStringExtra("roomKey");
+
         setContentView(R.layout.activity_review);
 
         reference = FirebaseDatabase.getInstance().getReference();
@@ -57,7 +61,6 @@ public class ReviewActivity extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                roomKey = dataSnapshot.child("users").child(AccountEmailKey).getValue(User.class).getRoomKey();
                 for(DataSnapshot snapshot : dataSnapshot.child("chatrooms").child(roomKey).child("users").getChildren()){
                     Log.d("reviewActivity", snapshot.getKey());
                     if(!AccountEmailKey.equals(snapshot.getKey())){
