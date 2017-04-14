@@ -118,7 +118,12 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
                 final String sport = spinnerSport.getSelectedItem().toString();
                 final String time = spinnerTime.getSelectedItem().toString();
-                final int zipcode = Integer.parseInt(EditTextZipcode.getText().toString());
+                String tempStr = EditTextZipcode.getText().toString();
+                if(tempStr.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Please enter valid zipcode", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                final int zipcode = Integer.parseInt(tempStr);
 
                 // Toast.makeText(v.getContext(), "Account created", Toast.LENGTH_LONG).show();
 
