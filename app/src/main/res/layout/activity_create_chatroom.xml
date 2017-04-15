@@ -53,11 +53,10 @@
         android:id="@+id/textView14"
         android:layout_width="337dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:text="Select time"
         android:layout_below="@+id/spinnerSport"
-        android:layout_marginTop="10dp"
-        android:text="Select time" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Spinner
         android:id="@+id/spinnerTime"
@@ -72,33 +71,40 @@
         android:id="@+id/textView15"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView14"
-        android:layout_alignStart="@+id/textView14"
-        android:layout_below="@+id/spinnerTime"
         android:layout_marginTop="16dp"
-        android:text="Zipcode" />
+        android:text="Address"
+        android:layout_below="@+id/spinnerTime"
+        android:layout_alignLeft="@+id/textView14"
+        android:layout_alignStart="@+id/textView14" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/editText_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
-        android:inputType="number"
         android:layout_below="@+id/textView15"
-        android:layout_alignLeft="@+id/textView15"
-        android:layout_alignStart="@+id/textView15" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/buttonMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Find rooms!"
-        android:layout_alignTop="@+id/editText3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignBottom="@+id/editText_address"
+        android:layout_toEndOf="@+id/button_Locate" />
 
 
+    <Button
+        android:id="@+id/button_Locate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onMapSearch"
+        android:text="Locate"
+        android:layout_above="@+id/linearLayout3"
+        android:layout_toRightOf="@+id/editText_address"
+        android:layout_toEndOf="@+id/editText_address" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -107,7 +113,8 @@
         android:layout_below="@+id/buttonMap"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/buttonDone">
+        android:layout_above="@+id/buttonDone"
+        android:id="@+id/linearLayout3">
 
 
         <com.google.android.gms.maps.MapView
