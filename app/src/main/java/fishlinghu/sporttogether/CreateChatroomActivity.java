@@ -186,6 +186,9 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
     }
 
     public void onMapSearch(View view) {
+
+
+
         EditText locationSearch = (EditText) findViewById(R.id.editText_address);
         String location = locationSearch.getText().toString();
         List<Address> addressList = null;
@@ -200,8 +203,8 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
             }
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+            googleMap.addMarker(new MarkerOptions().position(latLng).title(address.getAddressLine(0)));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         }
     }
 
@@ -213,6 +216,8 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onMapReady(GoogleMap map) {
+
+        googleMap = map;
 
 
         LatLng CRC = new LatLng(33.7790317, -84.4020629);
