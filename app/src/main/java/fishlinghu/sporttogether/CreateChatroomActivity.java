@@ -55,14 +55,15 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
     private DataSnapshot tempSnapshot;
     private Button ButtonDone;
-    private EditText EditTextZipcode;
-    private boolean foundRoom = false;
+    private EditText EditTextLocation;
+
     private String roomKey = "";
 
 
     private GoogleMap googleMap;
     private View view;
     private MapView mapView;
+    private LatLng MeetingPoint = new LatLng(0,0);
 
 
     @Override
@@ -101,7 +102,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         spinnerTime.setAdapter(adapter2);
 
         // find exitText for zipcode
-        EditTextZipcode = (EditText) findViewById(R.id.editText_address);
+        EditTextLocation = (EditText) findViewById(R.id.editText_address);
 
         ButtonDone = (Button) findViewById(R.id.buttonDone);
         ButtonDone.setOnClickListener(new View.OnClickListener() {
@@ -109,13 +110,19 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
                 final String sport = spinnerSport.getSelectedItem().toString();
                 final String time = spinnerTime.getSelectedItem().toString();
-                String tempStr = EditTextZipcode.getText().toString();
+                final String location = EditTextLocation.getText().toString();
+
+                String tempStr = EditTextLocation.getText().toString();
                 if (tempStr.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter valid zipcode", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Please enter meeting point", Toast.LENGTH_LONG).show();
                     return;
                 }
-                final int zipcode = Integer.parseInt(tempStr);
 
+                if (MeetingPoint.latitude == 0 && MeetingPoint.longitude == 0){
+                    Toast.makeText(getApplicationContext(), "Please Select a meeting point on the Map", Toast.LENGTH_LONG).show();
+                    return;
+
+                }
 
                 // look for existing chatroom
                 reference.child("chatrooms").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -126,28 +133,30 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
                             Chatroom temp = snapshot.getValue(Chatroom.class);
                             Log.d("foundMatch", sport + ", " + temp.getSport());
                             Log.d("foundMatch", time + ", " + temp.getIntendedTime()); // why is getTime always return null?
-                            Log.d("foundMatch", zipcode + ", " + temp.getZipcode());
-                            if (sport.equals(temp.getSport()) && time.equals(temp.getIntendedTime()) && zipcode == temp.getZipcode()) {
+                            Log.d("foundMatch", location + ", " + temp.getLocation());
+
+                            if (sport.equals(temp.getSport()) && time.equals(temp.getIntendedTime()) && location.equals(temp.getLocation())) {
                                 // a matched room found
                                 Log.d("foundMatch", "Match found!!!!!");
-                                foundRoom = true;
-                                roomKey = snapshot.getKey();
-                                //reference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue(roomKey);
-                                reference.child("users").child(AccountEmailKey).child("roomKey").child(roomKey).setValue("");
-                                reference.child("chatrooms").child(roomKey).child("users").child(AccountEmailKey).setValue("");
-                                // bring the user to the room
-                                Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
-                                Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
-                                myIntent.putExtra("roomKey", roomKey);
-                                startActivity(myIntent);
+                                Toast.makeText(getApplicationContext(), "Room already exist, Try to join other's room", Toast.LENGTH_LONG).show();
+
+//                                roomKey = snapshot.getKey();
+//                                //reference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue(roomKey);
+//                                reference.child("users").child(AccountEmailKey).child("roomKey").child(roomKey).setValue("");
+//                                reference.child("chatrooms").child(roomKey).child("users").child(AccountEmailKey).setValue("");
+//                                // bring the user to the room
+//                                Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
+//                                Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
+//                                myIntent.putExtra("roomKey", roomKey);
+//                                startActivity(myIntent);
                                 flag = true;
                                 break;
-                                //return;
+
                             }
                         }
                         if (flag == false) {
                             // no matched room found, create new room
-                            Chatroom NewChatroom = new Chatroom(sport, time, zipcode); // should turn hour into integer!!
+                            Chatroom NewChatroom = new Chatroom(sport, time, location, MeetingPoint.latitude, MeetingPoint.longitude); // should turn hour into integer!!
                             roomKey = reference.child("chatrooms").push().getKey();
                             reference.child("chatrooms").child(roomKey).setValue(NewChatroom);
                             reference.child("chatrooms").child(roomKey).child("messages").push();
@@ -172,6 +181,10 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
             }
         });
 
+
+
+
+
     }
 
     @Override
@@ -185,28 +198,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         }
     }
 
-    public void onMapSearch(View view) {
 
-
-
-        EditText locationSearch = (EditText) findViewById(R.id.editText_address);
-        String location = locationSearch.getText().toString();
-        List<Address> addressList = null;
-
-        if (location != null || !location.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
-            try {
-                addressList = geocoder.getFromLocationName(location, 1);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Address address = addressList.get(0);
-            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            googleMap.addMarker(new MarkerOptions().position(latLng).title(address.getAddressLine(0)));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -220,9 +212,6 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         googleMap = map;
 
 
-        LatLng CRC = new LatLng(33.7790317, -84.4020629);
-        map.addMarker(new MarkerOptions().position(CRC).title("Gatech CRC"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(CRC));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_ASK_PERMISSIONS);
@@ -232,7 +221,22 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         }
         map.setMyLocationEnabled(true);
 
+
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+
+                MeetingPoint = point;
+                googleMap.clear();
+                googleMap.addMarker(new MarkerOptions().position(point));
+            }
+        });
+
+
     }
+
+
 
 
     @Override

@@ -59,7 +59,7 @@ public class SelectRoomActivity extends AppCompatActivity {
                             tempButton.setId( tempID );
                             tempButton.setText( chatroomData.getSport()
                                     + "," + chatroomData.getIntendedTime()
-                                    + "," + chatroomData.getZipcode() );
+                                    + "," + chatroomData.getLocation() );
                             ll.addView( tempButton );
 
                             // set onClick

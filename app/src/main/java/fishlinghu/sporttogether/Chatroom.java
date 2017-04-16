@@ -1,5 +1,7 @@
 package fishlinghu.sporttogether;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,20 +14,31 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Chatroom {
     private String sport;
     private String intendedTime;
-    private int zipcode;
+    private String location;
+    private Double latitude;
+    private Double longitude;
+
+
     //private Map<String,Boolean> userMap = new ConcurrentHashMap<String,Boolean>();
 
     public Chatroom(){}
 
-    public Chatroom(String sport, String time, int zipcode){
+    public Chatroom(String sport, String time, String location, Double latitude, Double longitude){
         this.sport = sport;
         this.intendedTime = time;
-        this.zipcode = zipcode;
+        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
+
     }
 
     public String getSport() { return sport; }
     public String getIntendedTime() { return intendedTime; } //Why is this always return null!!!
-    public int getZipcode() { return zipcode; }
+    public String getLocation() { return location; }
+    public Double getLatitude() { return latitude; }
+    public Double getLongitude() { return longitude; }
+
+
 
     /*
     public void addUser(String userEmail){
