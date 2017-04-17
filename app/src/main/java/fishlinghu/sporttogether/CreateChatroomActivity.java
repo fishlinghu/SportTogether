@@ -1,6 +1,7 @@
 package fishlinghu.sporttogether;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
@@ -15,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -65,6 +67,13 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
     private LatLng MeetingPoint = new LatLng(0,0);
     private int mYear, mMonth, mDay;
 
+    private Button dateButton;
+    private TextView dateText;
+    private Button timeButton;
+    private TextView timeText;
+
+    private String eventTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +89,16 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         Button MapButton = (Button) findViewById(R.id.buttonMap);
         MapButton.setOnClickListener(this);
 
+
         // Map initialize
         mapView = (MapView) findViewById(R.id.mapView2);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-        final TextView dateText = (TextView)findViewById(R.id.dateText);
-        Button dateButton = (Button)findViewById(R.id.dateButton);
+        dateText = (TextView)findViewById(R.id.dateText);
+        dateButton = (Button)findViewById(R.id.dateButton);
+        timeText = (TextView)findViewById(R.id.timeText);
+        timeButton = (Button)findViewById(R.id.timebutton);
 
         dateButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -107,6 +119,25 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
         });
 
+        timeButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                // Use the current time as the default values for the picker
+                final Calendar c = Calendar.getInstance();
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minute = c.get(Calendar.MINUTE);
+                // Create a new instance of TimePickerDialog and return it
+                new TimePickerDialog(CreateChatroomActivity.this, new TimePickerDialog.OnTimeSetListener(){
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        timeText.setText(hourOfDay + ":" + minute);
+                        eventTime = hourOfDay + ":" + minute;
+                    }
+                }, hour, minute, false).show();
+            }
+
+        });
 
         // set the item in the sport selection list
         final Spinner spinnerSport = (Spinner) findViewById(R.id.spinnerSport);
@@ -114,11 +145,6 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, sportList);
         spinnerSport.setAdapter(adapter);
 
-        // set the item in the time selection list
-        final Spinner spinnerTime = (Spinner) findViewById(R.id.spinnerTime);
-        String[] timeList = new String[]{"3:00 pm", "4:00 pm", "5:00 pm"}; // need to add more time here
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, timeList);
-        spinnerTime.setAdapter(adapter2);
 
         // find exitText for zipcode
         EditTextLocation = (EditText) findViewById(R.id.editText_address);
@@ -128,7 +154,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
             public void onClick(View v) {
 
                 final String sport = spinnerSport.getSelectedItem().toString();
-                final String time = spinnerTime.getSelectedItem().toString();
+                final String time = eventTime;
                 final String location = EditTextLocation.getText().toString();
 
                 Calendar calendar = Calendar.getInstance();

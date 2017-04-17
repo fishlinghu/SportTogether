@@ -32,46 +32,51 @@
     <Spinner
         android:id="@+id/spinnerSport"
         android:layout_width="250dp"
-        android:layout_height="20dp"
+        android:layout_height="35dp"
         android:layout_below="@+id/dateButton"
         android:layout_alignRight="@+id/textView15"
         android:layout_alignEnd="@+id/textView15" />
+
+
+    <Button
+        android:id="@+id/timebutton"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:text="Select time"
+        android:layout_below="@+id/spinnerSport"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="100dp"
         android:layout_height="20dp"
-        android:layout_alignBottom="@+id/spinnerSport"
+        android:text="Select sports:"
+        android:layout_alignTop="@+id/spinnerSport"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="Select sports:" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/textView14"
         android:layout_width="100dp"
         android:layout_height="20dp"
         android:text="Select time:"
-        android:layout_alignTop="@+id/spinnerTime"
+        android:layout_alignBaseline="@+id/timebutton"
+        android:layout_alignBottom="@+id/timebutton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Spinner
-        android:id="@+id/spinnerTime"
-        android:layout_width="250dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="11dp"
-        android:layout_below="@+id/spinnerSport"
-        android:layout_alignLeft="@+id/spinnerSport"
-        android:layout_alignStart="@+id/spinnerSport" />
+
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="377dp"
         android:layout_height="20dp"
-        android:layout_below="@+id/spinnerTime"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        android:text="Meeting Point" />
+        android:text="Meeting Point"
+        android:layout_below="@+id/timebutton"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/editText_address"
@@ -123,16 +128,23 @@
         android:text="Select date:" />
 
     <TextView
+        android:id="@+id/timeText"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/textView14"
+        android:layout_alignLeft="@+id/spinnerSport"
+        android:layout_alignStart="@+id/spinnerSport"
+        android:text="00:00" />
+
+    <TextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="mm/dd/yyyy"
-        android:layout_alignBaseline="@+id/textView20"
-        android:layout_alignBottom="@+id/textView20"
-        android:layout_toRightOf="@+id/textView11"
-        android:layout_toEndOf="@+id/textView11"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp" />
+        android:layout_alignBaseline="@+id/dateButton"
+        android:layout_alignBottom="@+id/dateButton"
+        android:layout_alignLeft="@+id/spinnerSport"
+        android:layout_alignStart="@+id/spinnerSport" />
 
     <Button
         android:id="@+id/dateButton"
@@ -142,5 +154,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView10"
         android:text="Select date" />
+
+
 
 </RelativeLayout>
