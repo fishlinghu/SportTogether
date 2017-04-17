@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Chatroom {
     private String sport;
     private String intendedTime;
+    private String intendedDate;
     private String location;
     private Double latitude;
     private Double longitude;
@@ -21,47 +22,41 @@ public class Chatroom {
 
     //private Map<String,Boolean> userMap = new ConcurrentHashMap<String,Boolean>();
 
-    public Chatroom(){}
+    public Chatroom() {
+    }
 
-    public Chatroom(String sport, String time, String location, Double latitude, Double longitude){
+    public Chatroom(String sport, String date, String time, String location, Double latitude, Double longitude) {
         this.sport = sport;
         this.intendedTime = time;
+        this.intendedDate = date;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
 
     }
 
-    public String getSport() { return sport; }
-    public String getIntendedTime() { return intendedTime; } //Why is this always return null!!!
-    public String getLocation() { return location; }
-    public Double getLatitude() { return latitude; }
-    public Double getLongitude() { return longitude; }
-
-
-
-    /*
-    public void addUser(String userEmail){
-        userMap.put(userEmail, true);
-    }
-    public void removeUser(String userEmail){
-        userMap.remove(userEmail);
+    public String getSport() {
+        return sport;
     }
 
-    public ArrayList<String> getOtherUserList(String userEmail){
-        String tempStr;
-        ArrayList<String> ret = new ArrayList<String>();
+    public String getIntendedTime() {
+        return intendedTime;
+    } //Why is this always return null!!!
 
-        // put other user's email in the list
-        Iterator<String> it = userMap.keySet().iterator();
-        while(it.hasNext()){
-            tempStr = it.next();
-            if(!tempStr.equals(userEmail))
-                ret.add( tempStr );
-        }
-
-        return ret;
+    public String getIntendedDate() {
+        return intendedDate;
     }
-    */
+
+    public String getLocation() {
+        return location;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
 
 }

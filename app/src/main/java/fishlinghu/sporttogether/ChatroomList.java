@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChatroomList extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -40,6 +42,8 @@ public class ChatroomList extends FragmentActivity implements OnMapReadyCallback
     private FirebaseUser GoogleUser;
     private String AccountEmail;
     private String AccountEmailKey;
+    private String eventDate;
+    private String eventSport;
 
 
 
@@ -48,6 +52,10 @@ public class ChatroomList extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roomlist);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+        List<String> Eventdata = getIntent().getStringArrayListExtra("Eventdata");
+        eventDate = Eventdata.get(0);
+        eventSport = Eventdata.get(1);
 
         mapView = (MapView)findViewById(R.id.fragment_embedded_map_view_mapview);
         mapView.onCreate(savedInstanceState);
@@ -69,41 +77,48 @@ public class ChatroomList extends FragmentActivity implements OnMapReadyCallback
                     final String tempRoomKey = snapshot.getKey();
 
                     //Chatroom chatroomData;
-                    reference.child("chatrooms").child(tempRoomKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                    reference.child("chatrooms").child(tempRoomKey).addListenerForSingleValueEvent(new ValueEventListener(){
+
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Chatroom chatroomData = dataSnapshot.getValue(Chatroom.class);
+
                             if(chatroomData == null)
                                 return;
-                            Button tempButton = new Button(getApplicationContext());
-                            int tempID = genID();
-                            tempButton.setId( tempID );
-                            tempButton.setText( chatroomData.getSport()
-                                    + "," + chatroomData.getIntendedTime()
-                                    + "," + chatroomData.getLocation() );
-                            ll.addView( tempButton );
 
-                            final LatLng tempLatLng  =  new LatLng( chatroomData.getLatitude(), chatroomData.getLongitude());
-                            final Marker tempMarker = googleMap.addMarker(new MarkerOptions()
-                                    .position(tempLatLng)
-                                    .title("Click Marker to join this activity!"));
-                            tempMarker.setTag(tempRoomKey);
+                            Log.d("Got you", eventSport + ", " + chatroomData.getSport());
+                            Log.d("GotGot you", eventDate + ", " + chatroomData.getIntendedDate());
 
-                            // set onClick
-                            tempButton.setOnClickListener(new View.OnClickListener(){
-                                @Override
-                                public void onClick(View v) {
+                            if (eventSport.equals(chatroomData.getSport()) && eventDate.equals(chatroomData.getIntendedDate())) {
 
-                                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng,15));
-                                    // Zoom in, animating the camera.
-                                    googleMap.animateCamera(CameraUpdateFactory.zoomIn());
-                                    // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-                                    googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                                Button tempButton = new Button(getApplicationContext());
+                                int tempID = genID();
+                                tempButton.setId( tempID );
+                                tempButton.setText( chatroomData.getSport()
+                                        + "," + chatroomData.getIntendedTime()
+                                        + "," + chatroomData.getLocation() );
+                                ll.addView( tempButton );
 
-                                    tempMarker.showInfoWindow();
+                                final LatLng tempLatLng  =  new LatLng( chatroomData.getLatitude(), chatroomData.getLongitude());
+                                final Marker tempMarker = googleMap.addMarker(new MarkerOptions().position(tempLatLng).title("Click Marker to join this activity!"));
+                                tempMarker.setTag(tempRoomKey);
 
-                                }
-                            });
+                                tempButton.setOnClickListener(new View.OnClickListener(){
+                                    @Override
+                                    public void onClick(View v) {
+                                        // When user click the button, zoom in to the corresponding tag
+                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng,15));
+                                        googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+                                        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                                        tempMarker.showInfoWindow();
+
+                                    }
+                                });
+
+                            }else{
+                                return;
+                            }
+
 
                         }
 
@@ -131,7 +146,7 @@ public class ChatroomList extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(final Marker marker) {
 
-        // Retrieve the data from the marker.
+        // Retrieve the roomkey from the marker tag.
         String roomkey = (String) marker.getTag();
         Intent myIntent = new Intent(ChatroomList.this, ChatActivity.class);
         myIntent.putExtra("roomKey", roomkey);

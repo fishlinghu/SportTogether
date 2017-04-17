@@ -37,7 +37,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ValueEventListener;
 
 
-
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -72,7 +72,9 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
     private Button timeButton;
     private TextView timeText;
 
-    private String eventTime;
+    private String eventTime = "00:00";
+    private String eventDate = "04-12-2017";
+    private String eventSport = "Volleyball";
 
 
     @Override
@@ -111,6 +113,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         String format = setDateFormat(year,month,day);
+                        eventDate = format;
                         dateText.setText(format);
                     }
 
@@ -153,8 +156,11 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         ButtonDone.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                final String sport = spinnerSport.getSelectedItem().toString();
+                eventSport = spinnerSport.getSelectedItem().toString();
+
+                final String sport = eventSport;
                 final String time = eventTime;
+                final String Date = eventDate;
                 final String location = EditTextLocation.getText().toString();
 
                 Calendar calendar = Calendar.getInstance();
@@ -186,7 +192,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
                             Log.d("foundMatch", time + ", " + temp.getIntendedTime()); // why is getTime always return null?
                             Log.d("foundMatch", location + ", " + temp.getLocation());
 
-                            if (sport.equals(temp.getSport()) && time.equals(temp.getIntendedTime()) && location.equals(temp.getLocation())) {
+                            if (sport.equals(temp.getSport()) && Date.equals(temp.getIntendedDate()) && time.equals(temp.getIntendedTime()) && location.equals(temp.getLocation())) {
                                 // a matched room found
                                 Log.d("foundMatch", "Match found!!!!!");
                                 Toast.makeText(getApplicationContext(), "Room already exist, Try to join other's room", Toast.LENGTH_LONG).show();
@@ -197,7 +203,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
                         }
                         if (flag == false) {
                             // no matched room found, create new room
-                            Chatroom NewChatroom = new Chatroom(sport, time, location, MeetingPoint.latitude, MeetingPoint.longitude); // should turn hour into integer!!
+                            Chatroom NewChatroom = new Chatroom(sport, Date ,time, location, MeetingPoint.latitude, MeetingPoint.longitude); // should turn hour into integer!!
                             roomKey = reference.child("chatrooms").push().getKey();
                             reference.child("chatrooms").child(roomKey).setValue(NewChatroom);
                             reference.child("chatrooms").child(roomKey).child("messages").push();
@@ -239,8 +245,13 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonMap:
+                ArrayList<String> Eventdata = new ArrayList<String>();
+                Eventdata.add(eventDate);
+                Eventdata.add(eventSport);
+                Intent myIntent = new Intent(CreateChatroomActivity.this, ChatroomList.class);
+                myIntent.putExtra("Eventdata", Eventdata);
+                startActivity(myIntent);
 
-                startActivity(new Intent(CreateChatroomActivity.this, ChatroomList.class));
                 break;
 
         }
