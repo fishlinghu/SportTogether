@@ -2,7 +2,6 @@ package fishlinghu.sporttogether;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
-import android.location.Address;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,12 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by fishlinghu on 3/29/17.
@@ -192,7 +183,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         switch (v.getId()) {
             case R.id.buttonMap:
 
-                startActivity(new Intent(CreateChatroomActivity.this, MapsActivity.class));
+                startActivity(new Intent(CreateChatroomActivity.this, ChatroomList.class));
                 break;
 
         }
@@ -235,9 +226,6 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
 
     }
-
-
-
 
     @Override
     public final void onDestroy()
