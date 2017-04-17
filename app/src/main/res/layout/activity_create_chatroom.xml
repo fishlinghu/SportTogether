@@ -23,58 +23,54 @@
         android:id="@+id/textView10"
         android:layout_width="337dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/mapView"
         android:layout_weight="0.06"
-        android:text="Create a new room to wait for other players."
-        android:layout_marginTop="19dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:text="Search for an activity or create a new activity!" />
 
     <Spinner
         android:id="@+id/spinnerSport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/textView10"
-        android:layout_marginTop="54dp" />
+        android:layout_width="250dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/dateButton"
+        android:layout_alignRight="@+id/textView15"
+        android:layout_alignEnd="@+id/textView15" />
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView10"
-        android:layout_alignStart="@+id/textView10"
-        android:layout_alignTop="@+id/textView10"
-        android:layout_marginTop="27dp"
-        android:text="Select sports" />
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/spinnerSport"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Select sports:" />
 
     <TextView
         android:id="@+id/textView14"
-        android:layout_width="337dp"
-        android:layout_height="wrap_content"
-        android:text="Select time"
-        android:layout_below="@+id/spinnerSport"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:text="Select time:"
+        android:layout_alignTop="@+id/spinnerTime"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Spinner
         android:id="@+id/spinnerTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView14"
-        android:layout_marginTop="9dp" />
+        android:layout_width="250dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/spinnerSport"
+        android:layout_alignLeft="@+id/spinnerSport"
+        android:layout_alignStart="@+id/spinnerSport" />
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="377dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView14"
-        android:layout_alignStart="@+id/textView14"
+        android:layout_height="20dp"
         android:layout_below="@+id/spinnerTime"
-        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
         android:text="Meeting Point" />
 
     <EditText
@@ -84,16 +80,18 @@
         android:ems="10"
         android:layout_below="@+id/textView15"
         android:layout_alignLeft="@+id/textView15"
-        android:layout_alignStart="@+id/textView15" />
+        android:layout_alignStart="@+id/textView15"
+        android:layout_toLeftOf="@+id/buttonMap"
+        android:layout_toStartOf="@+id/buttonMap" />
 
     <Button
         android:id="@+id/buttonMap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find rooms!"
-        android:layout_alignBottom="@+id/editText_address"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/textView15"
+        android:text="Find rooms!" />
 
 
     <LinearLayout
@@ -113,5 +111,36 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/dateButton"
+        android:layout_alignBottom="@+id/dateButton"
+        android:layout_alignLeft="@+id/textView11"
+        android:layout_alignStart="@+id/textView11"
+        android:text="Select date:" />
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="mm/dd/yyyy"
+        android:layout_alignBaseline="@+id/textView20"
+        android:layout_alignBottom="@+id/textView20"
+        android:layout_toRightOf="@+id/textView11"
+        android:layout_toEndOf="@+id/textView11"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp" />
+
+    <Button
+        android:id="@+id/dateButton"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView10"
+        android:text="Select date" />
 
 </RelativeLayout>

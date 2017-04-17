@@ -1,7 +1,9 @@
 package fishlinghu.sporttogether;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -30,11 +34,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ValueEventListener;
 
+
+
+import java.util.Calendar;
+
 /**
  * Created by fishlinghu on 3/29/17.
  */
 
-public class CreateChatroomActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
+public class CreateChatroomActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback{
 
     private DatabaseReference reference;
     private FirebaseUser GoogleUser;
@@ -55,6 +63,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
     private View view;
     private MapView mapView;
     private LatLng MeetingPoint = new LatLng(0,0);
+    private int mYear, mMonth, mDay;
 
 
     @Override
@@ -76,8 +85,27 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+        final TextView dateText = (TextView)findViewById(R.id.dateText);
+        Button dateButton = (Button)findViewById(R.id.dateButton);
 
-        // single read data from FireBase
+        dateButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+                new DatePickerDialog(CreateChatroomActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        String format = setDateFormat(year,month,day);
+                        dateText.setText(format);
+                    }
+
+                }, mYear,mMonth, mDay).show();
+            }
+
+        });
 
 
         // set the item in the sport selection list
@@ -103,6 +131,10 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
                 final String time = spinnerTime.getSelectedItem().toString();
                 final String location = EditTextLocation.getText().toString();
 
+                Calendar calendar = Calendar.getInstance();
+
+
+
                 String tempStr = EditTextLocation.getText().toString();
                 if (tempStr.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter meeting point", Toast.LENGTH_LONG).show();
@@ -114,6 +146,8 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
                     return;
 
                 }
+
+
 
                 // look for existing chatroom
                 reference.child("chatrooms").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -130,16 +164,6 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
                                 // a matched room found
                                 Log.d("foundMatch", "Match found!!!!!");
                                 Toast.makeText(getApplicationContext(), "Room already exist, Try to join other's room", Toast.LENGTH_LONG).show();
-
-//                                roomKey = snapshot.getKey();
-//                                //reference.child("users").child( AccountEmailKey ).child( "roomKey" ).setValue(roomKey);
-//                                reference.child("users").child(AccountEmailKey).child("roomKey").child(roomKey).setValue("");
-//                                reference.child("chatrooms").child(roomKey).child("users").child(AccountEmailKey).setValue("");
-//                                // bring the user to the room
-//                                Toast.makeText(getApplicationContext(), roomKey, Toast.LENGTH_LONG).show();
-//                                Intent myIntent = new Intent(CreateChatroomActivity.this, ChatActivity.class);
-//                                myIntent.putExtra("roomKey", roomKey);
-//                                startActivity(myIntent);
                                 flag = true;
                                 break;
 
@@ -177,6 +201,13 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
 
     }
+
+    private String setDateFormat(int year,int monthOfYear,int dayOfMonth){
+        return  String.valueOf(monthOfYear + 1) + "-"
+                + String.valueOf(dayOfMonth) + "-"
+                + String.valueOf(year) ;
+    }
+
 
     @Override
     public void onClick(View v) {
