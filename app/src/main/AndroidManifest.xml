@@ -44,7 +44,8 @@
         <activity
             android:name=".ChatroomList"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".SelectRoomActivity"></activity>
+        <activity android:name=".SelectRoomActivity" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -55,8 +55,8 @@ public class SelectRoomActivity extends AppCompatActivity {
                             if(chatroomData == null)
                                 return;
                             Button tempButton = new Button(getApplicationContext());
-                            int tempID = genID();
-                            tempButton.setId( tempID );
+                            //int tempID = genID();
+                            //tempButton.setId( tempID );
                             tempButton.setText( chatroomData.getSport()
                                     + "," + chatroomData.getIntendedTime()
                                     + "," + chatroomData.getLocation() );

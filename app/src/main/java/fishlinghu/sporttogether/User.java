@@ -14,18 +14,20 @@ public class User {
     private int zipcode;
     private String sports ;
     private int level;
+    private String photoUrl;
     //private String roomKey;
     //private CopyOnWriteArrayList<Double> ratingList = new CopyOnWriteArrayList<>();
 
     public User() {
     }
 
-    public User( String name,  int zipcode, String sports, int level) {
+    public User( String name,  int zipcode, String sports, int level, String photoUrl) {
 
         this.name = name;
         this.zipcode = zipcode;
         this.sports = sports;
         this.level = level;
+        this.photoUrl = photoUrl;
         //this.roomKey = "";
         //this.ratingList.add(5.0);
 

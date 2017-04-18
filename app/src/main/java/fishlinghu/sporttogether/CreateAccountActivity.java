@@ -52,7 +52,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         ButtonDone.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                User NewUserData = new User("nobody", '0', "", '0');
+                User NewUserData = new User("nobody", '0', "", '0', GoogleUser.getPhotoUrl().toString());
 
                 NewUserData.setName(EditTextName.getText().toString());
                 NewUserData.setZipcode(Integer.parseInt( EditTextZipcode.getText().toString()));
