@@ -45,6 +45,7 @@ public class ReviewActivity extends AppCompatActivity {
     private ArrayList<String> userNameList = new ArrayList<String>();
     private ArrayList<String> userPhotoUrlList = new ArrayList<String>();
     private ArrayList<String> userEmailList = new ArrayList<String>();
+    private ArrayList<String> userEmailKeyList = new ArrayList<String>();
 
     private Button mSubmitBut;
 
@@ -70,7 +71,9 @@ public class ReviewActivity extends AppCompatActivity {
                     Log.d("reviewActivity", snapshot.getKey());
                     if(!AccountEmailKey.equals(snapshot.getKey())){
                         // add the name of other user to the list
-                        UserData = snapshot.getValue(User.class);
+                        // UserData = snapshot.getValue(User.class);
+                        UserData = dataSnapshot.child("users").child( snapshot.getKey() ).getValue(User.class);
+                        userEmailKeyList.add( snapshot.getKey() );
                         userNameList.add( UserData.getName() );
                         userPhotoUrlList.add( UserData.getPhotoUrl() );
                         userEmailList.add( snapshot.getKey() );
@@ -94,7 +97,7 @@ public class ReviewActivity extends AppCompatActivity {
 
                     // add user photo
                     ImageButton tempImageButton = new ImageButton( getApplicationContext() );
-                    LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(70, 70);
+                    LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(120, 120);
                     tempImageButton.setLayoutParams(lp3);
                     Glide.with(ReviewActivity.this).load( userPhotoUrlList.get(i) ).into(tempImageButton);
                     ll.addView( tempImageButton );
@@ -132,10 +135,10 @@ public class ReviewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // update the user rating
                 double tempRating = -1;
-                for(int i = 0; i < userNameList.size(); i++){
+                for(int i = 0; i < userEmailKeyList.size(); i++){
                     RatingBar tempRatingBar = (RatingBar) findViewById(10000+i);
                     tempRating = tempRatingBar.getRating();
-                    reference.child("users").child( userNameList.get(i) ).child("ratings").child( AccountEmailKey ).setValue( tempRating );
+                    reference.child("users").child( userEmailKeyList.get(i) ).child("ratings").child( AccountEmailKey ).setValue( tempRating );
                 }
                 // jump to main page
                 Intent myIntent = new Intent(ReviewActivity.this, MainPageActivity.class);
