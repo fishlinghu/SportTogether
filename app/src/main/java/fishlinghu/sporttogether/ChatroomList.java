@@ -47,11 +47,13 @@ public class ChatroomList extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roomlist);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
 
         List<String> Eventdata = getIntent().getStringArrayListExtra("Eventdata");
         eventDate = Eventdata.get(0);
@@ -148,8 +150,16 @@ public class ChatroomList extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(final Marker marker) {
 
-        // Retrieve the roomkey from the marker tag.
         String roomkey = (String) marker.getTag();
+
+        // add user to the room
+        reference.child("chatrooms").child(roomkey).child("users").child(AccountEmailKey).setValue("");
+        reference.child("users").child(AccountEmailKey).child("roomKey").child(roomkey).setValue("");
+
+
+
+
+        // Retrieve the roomkey from the marker tag.
         Intent myIntent = new Intent(ChatroomList.this, ChatActivity.class);
         myIntent.putExtra("roomKey", roomkey);
         startActivity(myIntent);
