@@ -52,12 +52,13 @@ public class CreateAccountActivity extends AppCompatActivity {
         ButtonDone.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                User NewUserData = new User("nobody", '0', "", '0', GoogleUser.getPhotoUrl().toString());
+                User NewUserData = new User("nobody", '0', "", '0', "");
 
                 NewUserData.setName(EditTextName.getText().toString());
                 NewUserData.setZipcode(Integer.parseInt( EditTextZipcode.getText().toString()));
                 NewUserData.setSports(EditTextSports.getText().toString());
                 NewUserData.setLevel(Integer.parseInt(EditTextLevel.getText().toString()));
+                NewUserData.setPhotoUrll( GoogleUser.getPhotoUrl().toString() );
 
                 reference.child("users").child( AccountEmail.replace(".",",") ).setValue(NewUserData);
 

@@ -8,11 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +43,8 @@ public class ReviewActivity extends AppCompatActivity {
     private String roomKey = "";
 
     private ArrayList<String> userNameList = new ArrayList<String>();
+    private ArrayList<String> userPhotoUrlList = new ArrayList<String>();
+    private ArrayList<String> userEmailList = new ArrayList<String>();
 
     private Button mSubmitBut;
 
@@ -65,7 +70,10 @@ public class ReviewActivity extends AppCompatActivity {
                     Log.d("reviewActivity", snapshot.getKey());
                     if(!AccountEmailKey.equals(snapshot.getKey())){
                         // add the name of other user to the list
-                        userNameList.add( snapshot.getKey() );
+                        UserData = snapshot.getValue(User.class);
+                        userNameList.add( UserData.getName() );
+                        userPhotoUrlList.add( UserData.getPhotoUrl() );
+                        userEmailList.add( snapshot.getKey() );
                     }
                 }
                 LinearLayout ll = (LinearLayout) findViewById(R.id.linearLayoutReview);
@@ -78,12 +86,30 @@ public class ReviewActivity extends AppCompatActivity {
                     TextView tempTextView = new TextView( getApplicationContext() );
                     LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     tempTextView.setText( userNameList.get(i) );
-                    // probably also put the user image? like what we do in chatroom
                     tempTextView.setLayoutParams(lp2);
                     tempTextView.setTextColor(Color.BLACK);
                     tempTextView.setVisibility(View.VISIBLE);
                     //tempTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                     ll.addView( tempTextView );
+
+                    // add user photo
+                    ImageButton tempImageButton = new ImageButton( getApplicationContext() );
+                    LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(70, 70);
+                    tempImageButton.setLayoutParams(lp3);
+                    Glide.with(ReviewActivity.this).load( userPhotoUrlList.get(i) ).into(tempImageButton);
+                    ll.addView( tempImageButton );
+
+                    final String tempEmailKey = userEmailList.get(i);
+
+                    tempImageButton.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            // jump to the chatroom
+                            Intent myIntent = new Intent(ReviewActivity.this, ProfileActivity.class);
+                            myIntent.putExtra("userEmailKey", tempEmailKey);
+                            startActivity(myIntent);
+                        }
+                    });
 
                     // add rating bar
                     RatingBar tempRatingBar = new RatingBar( getApplicationContext() );

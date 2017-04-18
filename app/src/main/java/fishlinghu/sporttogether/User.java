@@ -61,6 +61,13 @@ public class User {
         this.level = level;
     }
 
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+    public void setPhotoUrll(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
     //public String getRoomKey() {return roomKey;}
     //public void setRoomKey(String temp) {this.roomKey = temp;}
     /*

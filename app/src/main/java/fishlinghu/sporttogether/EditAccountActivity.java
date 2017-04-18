@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -34,6 +36,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private EditText EditTextZipcode;
     private EditText EditTextSports;
     private EditText EditTextLevel;
+    private ImageView ImageViewUserPhoto;
 
     private Button ButtonUpdate;
 
@@ -50,6 +53,7 @@ public class EditAccountActivity extends AppCompatActivity {
         EditTextZipcode = (EditText) findViewById(R.id.editText_Zipcode);
         EditTextSports = (EditText) findViewById(R.id.editText_Sport);
         EditTextLevel = (EditText) findViewById(R.id.editText_Level);
+        ImageViewUserPhoto = (ImageView) findViewById(R.id.imgViewUserProfilePhoto);
 
         ButtonUpdate = (Button) findViewById(R.id.updateButton);
 
@@ -72,6 +76,8 @@ public class EditAccountActivity extends AppCompatActivity {
                     EditTextZipcode.setText( Integer.toString(UserData.getZipcode()) , TextView.BufferType.EDITABLE);
                     EditTextSports.setText(UserData.getSports(), TextView.BufferType.EDITABLE);
                     EditTextLevel.setText(Integer.toString(UserData.getLevel()), TextView.BufferType.EDITABLE);
+
+                    Glide.with(EditAccountActivity.this).load(UserData.getPhotoUrl()).into( ImageViewUserPhoto );
                 }
             }
             @Override
