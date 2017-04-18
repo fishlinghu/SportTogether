@@ -67,7 +67,9 @@ public class ChatroomList extends FragmentActivity implements OnMapReadyCallback
         AccountEmail = GoogleUser.getEmail();
         AccountEmailKey = AccountEmail.replace(".",",");
 
-        Query query = reference.child("users").child( AccountEmailKey ).child("roomKey");
+        Query query = reference.child("chatrooms");
+        //        Query query = reference.child("users").child( AccountEmailKey ).child("roomKey");
+
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
