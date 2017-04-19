@@ -46,7 +46,13 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".SelectRoomActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".EventMap"></activity>
+        <activity android:name=".EventMap" />
+        <activity
+            android:name=".FriendActivity"
+            android:label="@string/title_activity_friend"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FriendReqActivity" />
+        <activity android:name=".FriendChatActivity"></activity>
     </application>
 
 </manifest>
