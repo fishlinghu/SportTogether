@@ -102,7 +102,6 @@ public class ChatroomList extends FragmentActivity implements OnMapReadyCallback
                                         + "," + chatroomData.getIntendedTime()
                                         + "," + chatroomData.getLocation() );
                                 ll.addView( tempButton );
-
                                 final LatLng tempLatLng  =  new LatLng( chatroomData.getLatitude(), chatroomData.getLongitude());
                                 final Marker tempMarker = googleMap.addMarker(new MarkerOptions().position(tempLatLng).title("Click Marker to join this activity!"));
                                 tempMarker.setTag(tempRoomKey);

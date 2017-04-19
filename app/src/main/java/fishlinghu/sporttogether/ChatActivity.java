@@ -59,6 +59,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatActivity extends AppCompatActivity
@@ -68,6 +70,8 @@ public class ChatActivity extends AppCompatActivity
     private FirebaseUser mFirebaseUser;
     private String AccountEmail;
     private String AccountEmailKey;
+    private double Eventlongitude;
+    private double Eventlatitude;
 
     // Firebase instance variables
     private DatabaseReference mFirebaseDatabaseReference;
@@ -107,6 +111,8 @@ public class ChatActivity extends AppCompatActivity
     private Button mSendButton;
     private Button mLeaveButton;
     private Button mGoButton;
+    private Button mMapButton;
+
     private RecyclerView mMessageRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private ProgressBar mProgressBar;
@@ -114,6 +120,8 @@ public class ChatActivity extends AppCompatActivity
     private ImageView mAddMessageImageView;
     private TextView mSportTextView;
     private TextView mTimeTextView;
+    private TextView mLocationTextView;
+
 
     // Firebase instance variables
 
@@ -168,7 +176,8 @@ public class ChatActivity extends AppCompatActivity
 
         // show the room information
         mSportTextView = (TextView) findViewById(R.id.textView16);
-        mTimeTextView = (TextView) findViewById(R.id.textView17);
+        mTimeTextView = (TextView) findViewById(R.id.textview_time);
+        mLocationTextView = (TextView) findViewById(R.id.textview_location);
 
         Query query = mFirebaseDatabaseReference.child("chatrooms").child(roomKey);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -177,7 +186,10 @@ public class ChatActivity extends AppCompatActivity
                 if (dataSnapshot.exists()) {
                     RoomData = dataSnapshot.getValue(Chatroom.class);
                     mSportTextView.setText( RoomData.getSport() );
-                    mTimeTextView.setText( RoomData.getIntendedTime() );
+                    mTimeTextView.setText( RoomData.getIntendedDate() + RoomData.getIntendedTime() );
+                    mLocationTextView.setText(RoomData.getLocation());
+                    Eventlongitude = RoomData.getLongitude();
+                    Eventlatitude = RoomData.getLatitude();
                 }
             }
             @Override
@@ -327,6 +339,22 @@ public class ChatActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent myIntent = new Intent(ChatActivity.this, ReviewActivity.class);
                 myIntent.putExtra("roomKey", roomKey);
+                startActivity(myIntent);
+            }
+        });
+
+
+        mMapButton = (Button) findViewById(R.id.button_map);
+        mMapButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(ChatActivity.this, EventMap.class);
+                ArrayList<Double> Pointdata = new ArrayList<Double>();
+                Pointdata.add(Eventlatitude);
+                Pointdata.add(Eventlongitude);
+
+                myIntent.putExtra("point", Pointdata);
                 startActivity(myIntent);
             }
         });

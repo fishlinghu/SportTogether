@@ -82,7 +82,7 @@
         android:layout_alignBottom="@+id/leaveButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="Intended time:" />
+        android:text="Time:" />
 
     <TextView
         android:id="@+id/textView16"
@@ -95,15 +95,14 @@
         android:layout_toRightOf="@+id/textView12" />
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/textview_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textView13"
         android:layout_marginLeft="7dp"
         android:layout_marginStart="7dp"
         android:layout_toEndOf="@+id/textView13"
-        android:layout_toRightOf="@+id/textView13"
-        android:text="TextView" />
+        android:layout_toRightOf="@+id/textView13" />
 
     <Button
         android:id="@+id/goButton"
@@ -114,4 +113,33 @@
         android:layout_below="@+id/leaveButton"
         android:layout_marginTop="14dp"
         android:text="Go" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/goButton"
+        android:text="Location:" />
+
+    <TextView
+        android:id="@+id/textview_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView24"
+        android:layout_alignBottom="@+id/textView24"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/textView24"
+        android:layout_toRightOf="@+id/textView24" />
+
+    <Button
+        android:id="@+id/button_map"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Show in Map"
+        android:layout_below="@+id/textView24"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
