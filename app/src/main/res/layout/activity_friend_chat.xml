@@ -12,7 +12,7 @@
     tools:context="com.google.firebase.codelab.friendlychat.MainActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/messageRecyclerView"
+        android:id="@+id/messageRecyclerView2"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_above="@+id/linearLayout" />
@@ -27,25 +27,25 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/addMessageImageView"
+            android:id="@+id/addMessageImageView2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            ads:srcCompat="@drawable/ic_add_black_24dp"/>
+            ads:srcCompat="@drawable/ic_add_black_24dp" />
 
         <EditText
-            android:id="@+id/messageEditText"
+            android:id="@+id/messageEditText2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <Button
-            android:id="@+id/sendButton"
+            android:id="@+id/sendButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:enabled="false"
-            android:text="SEND"/>
+            android:text="SEND" />
 
     </LinearLayout>
 
