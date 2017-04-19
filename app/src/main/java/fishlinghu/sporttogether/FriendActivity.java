@@ -80,7 +80,7 @@ public class FriendActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.child( AccountEmailKey ).child("friend").getChildren()){
                     final String friendEmailKey = snapshot.getKey();
-                    User UserData = dataSnapshot.child("users").child( friendEmailKey ).getValue(User.class);
+                    User UserData = dataSnapshot.child( friendEmailKey ).getValue(User.class);
                     userNameList.add( UserData.getName() );
                     userPhotoUrlList.add( UserData.getPhotoUrl() );
                     roomKeyList.add( snapshot.getValue(String.class) );

@@ -144,7 +144,7 @@ public class CreateChatroomActivity extends AppCompatActivity implements View.On
 
         // set the item in the sport selection list
         final Spinner spinnerSport = (Spinner) findViewById(R.id.spinnerSport);
-        String[] sportList = new String[]{"Volleyball", "Basketball", "Badminton"};
+        String[] sportList = new String[]{"Volleyball", "Basketball", "Badminton", "Tennis", "Running", "Swimming"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, sportList);
         spinnerSport.setAdapter(adapter);
 
