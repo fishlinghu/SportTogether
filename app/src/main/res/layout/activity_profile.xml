@@ -51,4 +51,13 @@
         android:layout_toRightOf="@+id/textViewProfileName"
         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
+    <Button
+        android:id="@+id/buttonSendFriendReq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="87dp"
+        android:text="Send friend request" />
+
 </RelativeLayout>
