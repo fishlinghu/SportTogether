@@ -93,7 +93,8 @@ public class ChatroomList extends FragmentActivity implements OnMapReadyCallback
                             Log.d("Got you", eventSport + ", " + chatroomData.getSport());
                             Log.d("GotGot you", eventDate + ", " + chatroomData.getIntendedDate());
 
-                            if (eventSport.equals(chatroomData.getSport()) && eventDate.equals(chatroomData.getIntendedDate())) {
+                            if (eventSport.equals(chatroomData.getSport())
+                                    && eventDate.equals(chatroomData.getIntendedDate())) {
 
                                 Button tempButton = new Button(getApplicationContext());
                                 int tempID = genID();
